@@ -1,19 +1,16 @@
 from django import forms
 
-class ExcelUploadForm(forms.Form):
-    file = forms.FileField(label="Selecione um arquivo CSV")
+class ExcelUploadFormArea(forms.Form):
+    file = forms.FileField()
 
-class ExcelUploadTemp(forms.Form):
-    file = forms.FileField(label="Selecione um arquivo CSV de Temperatura")
+class ExcelUploadFormAmbiente(forms.Form):
+    file = forms.FileField()
 
-class ExcelUploadCont(forms.Form):
-    file = forms.FileField(label="Selecione um arquivo CSV de Contador")
+class ExcelUploadFormGestor(forms.Form):
+    file = forms.FileField()
 
-class ExcelUploadUmi(forms.Form):
-    file = forms.FileField(label="Selecione um arquivo CSV de Umidade")
+class ExcelUploadFormManutentor(forms.Form):
+    file = forms.FileField()
 
-class ExcelUploadLumi(forms.Form):
-    file = forms.FileField(label="Selecione um arquivo CSV de Luminosidade")
-
-
-    
+class ExcelUploadFormPatrimonio(forms.Form):
+    file = forms.FileField()
