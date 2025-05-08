@@ -45,6 +45,7 @@ def upload_gestor(request):
     return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Gestor'})
 
 
+
 def upload_manutentor(request):
     if request.method == 'POST':
         form = ExcelUploadFormManutentor(request.POST, request.FILES)
@@ -53,13 +54,22 @@ def upload_manutentor(request):
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
                 try:
-                    gestor = Gestor.objects.get(sn=row[4])
-                    Manutentor.objects.create(sn=row[0], nome=row[1], email=row[2], area=row[3], gestor=gestor)
+                    gestor_id = row[4]
+                    gestor = Gestor.objects.get(id=gestor_id)
+                    Manutentor.objects.create(
+                        sn=row[0],
+                        nome=row[1],
+                        email=row[2],
+                        area=row[3],
+                        gestor=gestor
+                    )
                 except Gestor.DoesNotExist:
-                    print(f"Gestor SN {row[4]} não encontrado.")
+                    print(f"Gestor com ID {row[4]} não encontrado.")
     else:
         form = ExcelUploadFormManutentor()
+
     return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Manutentor'})
+
 
 
 def upload_patrimonio(request):
@@ -69,7 +79,7 @@ def upload_patrimonio(request):
             wb = openpyxl.load_workbook(request.FILES['file'])
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
-                Patrimonio.objects.create(ni=row[0], descricao=row[1], localizacao=row[2])
+                Patrimonio.objects.create(ni=row[1], descricao=row[2], localizacao=row[0])
     else:
         form = ExcelUploadFormPatrimonio()
     return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Patrimônio'})

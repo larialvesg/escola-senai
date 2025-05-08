@@ -10,7 +10,7 @@ class Patrimonio(models.Model):
 class Ambiente(models.Model):
     sig = models.CharField(max_length=20, unique=True)
     descricao = models.CharField(max_length=100)
-    sn = models.CharField(max_length=20, unique=True)
+    sn = models.CharField(max_length=20)
     responsavel = models.CharField(max_length=100)
 
 class Gestor(models.Model):
@@ -24,7 +24,7 @@ class Manutentor(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     area = models.CharField(max_length=50)
-    gestor = models.ForeignKey(Gestor, on_delete=models.CASCADE)
+    gestor = models.ForeignKey(Gestor, on_delete=models.CASCADE, null=True, blank=True)
 
 class Area(models.Model):
     area = models.CharField(max_length=50)
