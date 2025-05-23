@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
-from ..models import Patrimonio, Ambiente, Area, Gestor, Manutentor, OrdemDeServico 
+from ..models import Patrimonio, Ambiente, Area, OrdemDeServico 
 from .serializers import (
-    PatrimonioSerializer, AmbienteSerializer, AreaSerializer,
-    GestorSerializer, ManutentorSerializer, OrdemDeServicoSerializer,
+    PatrimonioSerializer, AmbienteSerializer, AreaSerializer, OrdemDeServicoSerializer,
     UserSerializer
 )
 
@@ -29,21 +28,6 @@ class AmbienteList(generics.ListAPIView):
     queryset = Ambiente.objects.all()
     serializer_class = AmbienteSerializer
 
-class GestorViewSet(viewsets.ModelViewSet):     
-    queryset = Gestor.objects.all()
-    serializer_class = GestorSerializer
-
-class GestorList(generics.ListAPIView):     
-    queryset = Gestor.objects.all()
-    serializer_class = GestorSerializer
-
-class ManutentorViewSet(viewsets.ModelViewSet):     
-    queryset = Manutentor.objects.all()
-    serializer_class = ManutentorSerializer
-
-class ManutentorList(generics.ListAPIView):     
-    queryset = Manutentor.objects.all()
-    serializer_class = ManutentorSerializer
 
 class OrdemDeServicoViewSet(viewsets.ModelViewSet):     
     queryset = OrdemDeServico.objects.all()
@@ -62,4 +46,3 @@ class AreaList(generics.ListAPIView):
     serializer_class = AreaSerializer
 
 
-# permission_classes = [IsAuthenticated]

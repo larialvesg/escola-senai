@@ -6,11 +6,8 @@ class ExcelUploadFormArea(forms.Form):
 class ExcelUploadFormAmbiente(forms.Form):
     file = forms.FileField()
 
-class ExcelUploadFormGestor(forms.Form):
-    file = forms.FileField()
-
-class ExcelUploadFormManutentor(forms.Form):
-    file = forms.FileField()
-
 class ExcelUploadFormPatrimonio(forms.Form):
+    file = forms.FileField()
+
+class ExcelUploadFormFuncionario(forms.Form):
     file = forms.FileField()

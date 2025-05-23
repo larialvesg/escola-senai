@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container-ambiente {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: 200px auto 20px auto;
+  width: 100%;
+  position: relative;
+}
+
+.section-ambiente {
+  padding: 0 20px 20px 20px;
+}
+
+.header,
+.lista {
+  display: grid;
+  grid-template-columns:
+    minmax(40px, auto)
+    minmax(120px, 1fr)
+    minmax(150px, 1fr)
+    minmax(100px, 1fr)
+    minmax(220px, 0.8fr)
+    minmax(80px, auto);
+  align-items: center;
+}
+
+.header {
+  background-color: #fc03a1;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 15px 15px;
+  border-radius: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.lista {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 10px;
+  transition: background-color 0.3s ease;
+  cursor: default;
+  width: 100%;
+}
+
+.lista:hover {
+  background-color: #f0f0f0;
+}
+
+.coluna1,
+.coluna2,
+.coluna3,
+.coluna4,
+.coluna5,
+.coluna6,
+.coluna7 {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.coluna7 {
+  width: 200px;
+}
+
+.edit,
+.delete {
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s ease;
+  margin: 0 5px;
+}
+
+.edit:hover {
+  color: #00b377;
+}
+
+.delete:hover {
+  color: #b30000;
+}
+
+.id,
+.sig,
+.descricao,
+.sn,
+.responsavel {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

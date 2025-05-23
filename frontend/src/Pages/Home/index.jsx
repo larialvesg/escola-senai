@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./styles.css";
+import "./styleshome.css";
 import Header from "../../Components/header";
 
 const Home = () => {
@@ -19,26 +19,22 @@ const Home = () => {
         <Header />
       </div>
       <div className="home-container">
-        <header className="header">
+        <header className="header-home">
           <h1>Veja as informações</h1>
         </header>
 
         <section className="cards-section">
-          <Link to="/temperatura" className="card">
-            <h4>Temperatura</h4>
-            <p>Ver Dados</p>
+          <Link to="/ordemdeservico" className="card">
+            <h4>Ordens de Serviço</h4>
           </Link>
-          <Link to="/umidade" className="card">
-            <h4>Umidade</h4>
-            <p>Ver Dados</p>
+          <Link to="/patrimonios" className="card">
+            <h4>Patrimônios</h4>
           </Link>
-          <Link to="/contador" className="card">
-            <h4>Contador</h4>
-            <p>Ver Dados</p>
+          <Link to="/ambientes" className="card">
+            <h4>Ambientes</h4>
           </Link>
-          <Link to="/luminosidade" className="card">
-            <h4>Luminosidade</h4>
-            <p>Ver Dados</p>
+          <Link to="/manutentores" className="card">
+            <h4>Manutentores</h4>
           </Link>
         </section>
       </div>

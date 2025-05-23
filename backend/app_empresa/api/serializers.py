@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
-from app_empresa.models import Patrimonio, Ambiente, Area, Gestor, Manutentor, OrdemDeServico 
+from app_empresa.models import Patrimonio, Ambiente, Area, OrdemDeServico 
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) 
@@ -31,15 +31,6 @@ class AreaSerializer(serializers.ModelSerializer):
         model = Area		
         fields = '__all__' 
 
-class GestorSerializer(serializers.ModelSerializer):	
-    class Meta:		
-        model = Gestor		
-        fields = '__all__' 
-
-class ManutentorSerializer(serializers.ModelSerializer):	
-    class Meta:		
-        model = Manutentor		
-        fields = '__all__' 
 
 class OrdemDeServicoSerializer(serializers.ModelSerializer):	
     class Meta:		

@@ -1,11 +1,18 @@
 import openpyxl
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render
+from .models import Ambiente
+from app_empresa.api.serializers import AmbienteSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from django.http import HttpResponse
 from .forms import (
-    ExcelUploadFormArea, ExcelUploadFormAmbiente, ExcelUploadFormGestor,
-    ExcelUploadFormManutentor, ExcelUploadFormPatrimonio
+    ExcelUploadFormArea, ExcelUploadFormAmbiente, ExcelUploadFormPatrimonio, ExcelUploadFormFuncionario
 )
-from .models import Area, Ambiente, Gestor, Manutentor, Patrimonio
+from .models import Area, Ambiente, Funcionario, Patrimonio
 
 def upload_area(request):
     if request.method == 'POST':
@@ -32,43 +39,17 @@ def upload_ambiente(request):
     return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Ambiente'})
 
 
-def upload_gestor(request):
+def upload_funcionario(request):
     if request.method == 'POST':
-        form = ExcelUploadFormGestor(request.POST, request.FILES)
+        form = ExcelUploadFormFuncionario(request.POST, request.FILES)
         if form.is_valid():
             wb = openpyxl.load_workbook(request.FILES['file'])
             ws = wb.active
             for row in ws.iter_rows(min_row=2, values_only=True):
-                Gestor.objects.create(sn=row[0], nome=row[1], cargo=row[2])
+                Funcionario.objects.create(sn=row[0], nome=row[1], email=row[2], cargo=row[3], area=row[4])
     else:
-        form = ExcelUploadFormGestor()
-    return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Gestor'})
-
-
-
-def upload_manutentor(request):
-    if request.method == 'POST':
-        form = ExcelUploadFormManutentor(request.POST, request.FILES)
-        if form.is_valid():
-            wb = openpyxl.load_workbook(request.FILES['file'])
-            ws = wb.active
-            for row in ws.iter_rows(min_row=2, values_only=True):
-                try:
-                    gestor_id = row[4]
-                    gestor = Gestor.objects.get(id=gestor_id)
-                    Manutentor.objects.create(
-                        sn=row[0],
-                        nome=row[1],
-                        email=row[2],
-                        area=row[3],
-                        gestor=gestor
-                    )
-                except Gestor.DoesNotExist:
-                    print(f"Gestor com ID {row[4]} não encontrado.")
-    else:
-        form = ExcelUploadFormManutentor()
-
-    return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Manutentor'})
+        form = ExcelUploadFormFuncionario()
+    return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Funcionario'})
 
 
 
@@ -84,3 +65,14 @@ def upload_patrimonio(request):
         form = ExcelUploadFormPatrimonio()
     return render(request, 'upload_excel.html', {'form': form, 'titulo': 'Upload de Patrimônio'})
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def buscar_ambiente_por_id(request, idSearch):
+    try:
+        ambiente = Ambiente.objects.get(id=idSearch)
+        serializer = AmbienteSerializer(ambiente)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Ambiente.DoesNotExist:
+        return Response({'error': 'Ambiente não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+    

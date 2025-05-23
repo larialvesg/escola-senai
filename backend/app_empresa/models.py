@@ -1,33 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Patrimonio(models.Model):
-    ni = models.CharField(max_length=20, unique=True)
-    descricao = models.CharField(max_length=100)
-    localizacao = models.CharField(max_length=100)
-    
+class Area(models.Model):
+    area = models.CharField(max_length=50)
+
+class Funcionario(models.Model):
+    sn = models.CharField(max_length=20, unique=True)
+    nome = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)
 
 class Ambiente(models.Model):
     sig = models.CharField(max_length=20, unique=True)
     descricao = models.CharField(max_length=100)
     sn = models.CharField(max_length=20)
-    responsavel = models.CharField(max_length=100)
+    responsavel = models.ForeignKey(Funcionario, on_delete=models.CASCADE, null=True, blank=True)
 
-class Gestor(models.Model):
-    sn = models.CharField(max_length=20, unique=True)
-    nome = models.CharField(max_length=100)
-    cargo = models.CharField(max_length=100)
-
-
-class Manutentor(models.Model):
-    sn = models.CharField(max_length=20, unique=True)
-    nome = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    area = models.CharField(max_length=50)
-    gestor = models.ForeignKey(Gestor, on_delete=models.CASCADE, null=True, blank=True)
-
-class Area(models.Model):
-    area = models.CharField(max_length=50)
+class Patrimonio(models.Model):
+    ni = models.CharField(max_length=20, unique=True)
+    descricao = models.CharField(max_length=100)
+    localizacao = models.ForeignKey(Ambiente, on_delete=models.CASCADE, null=True, blank=True)
 
 class OrdemDeServico(models.Model):
     descricao = models.CharField(max_length=100)
@@ -44,15 +37,13 @@ class OrdemDeServico(models.Model):
     ('baixa', 'Baixa'),]
     status = models.CharField(max_length=50, choices=status_opcoes)
     patrimonio = models.ForeignKey(Patrimonio, on_delete=models.CASCADE, null=True, blank=True)
-    ambiente = models.ForeignKey(Ambiente, on_delete=models.CASCADE)
-    manutentor = models.ForeignKey(Manutentor, on_delete=models.CASCADE, null=True, blank=True)
     prioridade = models.CharField(max_length=50, choices=prioridade_opcoes)
-    funcionario = models.ForeignKey(User, on_delete=models.CASCADE)
+    requisitante = models.ForeignKey(User, on_delete=models.CASCADE)
+    manutentor = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     sn = models.CharField(max_length=20, unique=True)
     def __str__(self):
         return (
             f"Patrimônio: {self.patrimonio} | "
-            f"Ambiente: {self.ambiente} | "
             f"Manutentor: {self.manutentor} | "
-            f"Funcionário: {self.funcionario}"
+            f"Funcionário: {self.requisitante}"
             )
